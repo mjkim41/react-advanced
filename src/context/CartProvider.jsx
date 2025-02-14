@@ -14,7 +14,19 @@ const CartProvider = ({ children }) => {
     const closeModal = () => setCartIsShown(false);
 
     const handleAddToCartItem = (newCartItem) => {
-        setCartItems([...cartItems, newCartItem]);
+
+        // 이미 장바구니에 있는 항목인지 체크
+        const existingItems = [...cartItems];
+        const existingItem = cartItems.find(cartItem => cartItem.id === newCartItem.id);
+
+        if (existingItem) {
+            existingItem.amount += newCartItem.amount;
+            existingItem.price += newCartItem.price;
+            setCartItems(existingItems); // 원본에 복사배열로 갱신
+        } else {
+            setCartItems([...cartItems, newCartItem]);
+        }
+
         setTotalPrice(prevTotalPrice => prevTotalPrice + newCartItem.price); // 총액 갱신
     };
 
