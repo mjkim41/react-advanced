@@ -5,6 +5,8 @@ const CartProvider = ({ children }) => {
 
     // 장바구니를 렌더링할 목록
     const [cartItems, setCartItems] = useState([]);
+    // 총액을 상태 관리
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const [cartIsShown, setCartIsShown] = useState(false);
 
@@ -13,6 +15,7 @@ const CartProvider = ({ children }) => {
 
     const handleAddToCartItem = (newCartItem) => {
         setCartItems([...cartItems, newCartItem]);
+        setTotalPrice(prevTotalPrice => prevTotalPrice + newCartItem.price); // 총액 갱신
     };
 
     const initialValue = {
@@ -21,6 +24,7 @@ const CartProvider = ({ children }) => {
         closeModal: closeModal, // 모달 닫아주는 함수
         cartItems: cartItems, // 모달에 렌더링할 장바구니 배열
         addToCartItem: handleAddToCartItem, // 장바구니에 내용을 추가
+        totalPrice : totalPrice, // 장바구니 총액
     };
 
     return (
