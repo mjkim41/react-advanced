@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import styles from './Input.module.scss';
 
-const Input = ({ label, inputAttr }) => {
+const InputComponent = ({ label, inputAttr }, ref) => {
     return (
         <div className={styles.input}>
             <label>{label}</label>
             {/* # */}
-            <input {...inputAttr} />
+            <input ref={ref} {...inputAttr} />
         </div>
     );
 };
 
+const Input = forwardRef(InputComponent);
+
 export default Input;
+
