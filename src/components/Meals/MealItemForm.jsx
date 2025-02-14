@@ -2,20 +2,19 @@ import { useRef } from 'react';
 import Input from '../UI/Input';
 import styles from './MealItemForm.module.scss';
 
-const MealItemForm = ({ onAddToCart, id}) => {
-
+const MealItemForm = ({ onAddToCart, id }) => {
     const inputRef = useRef();
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         onAddToCart(inputRef.current.value);
-
     };
 
     return (
-        <form className={styles.form} onSubmit={handleSubmit}>
-
+        <form
+            className={styles.form}
+            onSubmit={handleSubmit}>
             <Input
                 ref={inputRef}
                 label='수량'

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styles from './Cart.module.scss';
 import CartModal from './CartModal';
 import CartContext from '../../context/cart-context';
-import CartItem from "./CartItem.jsx";
+import CartItem from './CartItem';
 
 // const DUMMY_CART = [
 //   {

@@ -5,7 +5,7 @@ const CartProvider = ({ children }) => {
 
     // 장바구니를 렌더링할 목록
     const [cartItems, setCartItems] = useState([]);
-    // 총액을 상태 관리
+    // 총액을 상태관리
     const [totalPrice, setTotalPrice] = useState(0);
 
     const [cartIsShown, setCartIsShown] = useState(false);
@@ -13,53 +13,51 @@ const CartProvider = ({ children }) => {
     const openModal = () => setCartIsShown(true);
     const closeModal = () => setCartIsShown(false);
 
+    // 장바구니 배열에 데이터를 추가하는 함수
     const handleAddToCartItem = (newCartItem) => {
 
-        // 이미 장바구니에 있는 항목인지 체크
+        // 원본 배열을 복사
         const existingItems = [...cartItems];
-        const existingItem = cartItems.find(cartItem => cartItem.id === newCartItem.id);
+        // 이미 장바구니에 있는 항목인지를 체크
+        const existingItem = existingItems.find(cartItem => cartItem.id === newCartItem.id);
 
-        if (existingItem) {
+        if (existingItem) { // 수량과 가격을 갱신
             existingItem.amount += newCartItem.amount;
             existingItem.price += newCartItem.price;
-            setCartItems(existingItems); // 원본에 복사배열로 갱신
-        } else {
+            setCartItems(existingItems); // 원본에 복사배열 갱신
+        } else { // 배열에 첫 추가
             setCartItems([...cartItems, newCartItem]);
         }
-
-        setTotalPrice(prevTotalPrice => prevTotalPrice + newCartItem.price); // 총액 갱신
+        // 총액 갱신
+        setTotalPrice(prev => prev + newCartItem.price);
     };
 
-    // 장바구니 목록에서 항목을 제거하거나 수량을 줄여주는 함수
+    // 장바구니에서 항목의 수량을 1내리거나 수량이 1일경우 삭제하는 함수
     const handleRemoveToCartItem = (id) => {
-
-        console.log(id);
-
         // 원본배열 복사
         const existingItems = [...cartItems];
-        console.log(existingItems);
 
-        // 사본배열에서 id를 통해 타겟 객체 탐색
-        const targetItem = existingItems.find(item => item.id === id);
+        // 사본배열에서 id를 통해 타겟객체를 탐색
+        const existingItem = existingItems.find(item => item.id === id);
+        // 항목 1개의 가격을 구하기
+        const eachPrice = Math.floor(existingItem.price / existingItem.amount);
 
-        console.log(targetItem);
-
-        // 항목 하나의 가격
-        const unitPrice = Math.floor(targetItem.price / targetItem.amount);
-
-        // 수량이 1이면 배열에서 제거, 수량이 1보다 크면 수량 조절
-        if(targetItem.amount === 1) {
+        // 수량이 1인경우 - 배열에서 제거
+        if (existingItem.amount === 1) {
             setCartItems(existingItems.filter(item => item.id !== id));
         } else {
-            targetItem.amount--;
-            targetItem.price -= unitPrice;
+            // 수량이 1보다 큰경우 - 기존 수량에서 1을 내려서 수정
+
+            existingItem.amount--;
+            existingItem.price -= eachPrice;
+
             setCartItems(existingItems);
         }
 
         // 총액 갱신
-        setTotalPrice(prev => prev - unitPrice);
+        setTotalPrice(prev => prev - eachPrice);
 
-    }
+    };
 
     const initialValue = {
         cartIsShown: cartIsShown, // 모달을 열고닫는 여부
@@ -67,8 +65,8 @@ const CartProvider = ({ children }) => {
         closeModal: closeModal, // 모달 닫아주는 함수
         cartItems: cartItems, // 모달에 렌더링할 장바구니 배열
         addToCartItem: handleAddToCartItem, // 장바구니에 내용을 추가
-        removeToCartItem: handleRemoveToCartItem, // 장바구니 목록에서 항목을 제거하거나 수량을 줄여주는 함수
-        totalPrice : totalPrice, // 장바구니 총액
+        removeToCartItem: handleRemoveToCartItem, // 장바구니 목록에서 항목을 제거하는 함수
+        totalPrice: totalPrice, // 장바구니 총액
     };
 
     return (
