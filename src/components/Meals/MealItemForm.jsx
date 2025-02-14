@@ -5,15 +5,15 @@ const MealItemForm = (props) => {
     return (
         <form className={styles.form}>
             <Input
-                label='수량'
-                // input={{
-                //   id: 'amount_' + props.id,
-                //   type: 'number',
-                //   min: '1',
-                //   max: '5',
-                //   step: '1',
-                //   defaultValue: '1',
-                // }}
+                label='구매여부'
+                inputAttr={{
+                  id: 'amount_' + props.id,
+                  type: 'number',
+                  min: '1',
+                  max: '5',
+                  step: '1',
+                  defaultValue: '1',
+                }}
             />
             <button>담기</button>
         </form>
