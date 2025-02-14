@@ -1,0 +1,11 @@
+import {createContext} from "react";
+
+// 1. React.createContext({defaultValue})장바구니 앱에서 사용할 공유 상태값들을 관리하는 저장소
+// - 인자는 보통 data type 만 줌(인터페이스 처럼)
+const CartContext = createContext({
+    cartIsShown: false, // 모달을 열고닫는 여부
+    openModal: () => {}, // 모달 열어주는 함수
+    closeModal: () => {}, // 모달 닫아주는 함수
+});
+
+export default CartContext;
